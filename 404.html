@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Page not found</title>
+<script>
+  // GitHub Pages doesn't redirect renamed repos, so map the old project URLs here.
+  var moves = { "/btoPlanner": "/bto-planner", "/CPF-Forecast-Calculator": "/cpf-forecast-calculator", "/wenzhe": "" };
+  var p = location.pathname;
+  for (var old in moves) {
+    if (p === old || p.indexOf(old + "/") === 0) {
+      location.replace((moves[old] + p.slice(old.length) || "/") + location.search + location.hash);
+      break;
+    }
+  }
+</script>
+<p>Page not found. <a href="/">Go to the homepage</a>.</p>
+</html>
