@@ -64,7 +64,16 @@
     @keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
     .fade-in { animation: fade-in-up .5s ease-out var(--fade-delay, 0ms) both; }
     @media print { .fade-in { animation: none; } }
+    /* Until fade-in.js starts (at most 3 s), keep the page hidden so it doesn't flash. */
+    html.fade-pending :is(.masthead-inner, .site-nav-bar, main) { visibility: hidden; }
+    /* Loaded in the background ahead of a click: hold the entrance until the page is shown. */
+    html.fade-paused .fade-in { animation-play-state: paused; }
   </style>
+  <!-- Faster opening: pages linked from here load in the background when a link is hovered,
+       so they open instantly (Chrome and Edge; other browsers ignore this). -->
+  <script type="speculationrules">{"prerender": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}</script>
+  <!-- Keep the page hidden until fade-in.js starts its entrance (at most 3 s), so it doesn't flash first. -->
+  <script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { document.documentElement.classList.add("fade-pending"); setTimeout(() => document.documentElement.classList.remove("fade-pending"), 3000); }</script>
 </head>
 <body>
   <header class="masthead">
